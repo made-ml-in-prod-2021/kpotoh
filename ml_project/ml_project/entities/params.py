@@ -12,9 +12,9 @@ class SplittingParams:
 class FeatureParams:
     categorical_features: List[str]
     numerical_features: List[str]
-    features_to_drop: List[str]
-    target_col: Optional[str]
-    use_log_trick: bool = field(default=True)
+    features_to_drop: Optional[List[str]]
+    use_scaling_for_num_features: bool
+    target_col: str
 
 
 @dataclass()

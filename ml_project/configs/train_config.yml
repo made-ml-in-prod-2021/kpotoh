@@ -2,38 +2,28 @@ input_data_path: "data/raw/heart.csv"
 output_model_path: "models/model.pkl"
 metric_path: "models/metrics.json"
 splitting_params:
-  val_size: 0.1
-  random_state: 3
+  val_size: 0.2
+  random_state: 10
 train_params:
-  model_type: "RandomForestRegressor"
+  model_type: "LogisticRegression"
 feature_params:
   categorical_features:
-    - "MSZoning"
-    - "Neighborhood"
-    - "RoofStyle"
-    - "MasVnrType"
-    - "BsmtQual"
-    - "BsmtExposure"
-    - "HeatingQC"
-    - "CentralAir"
-    - "KitchenQual"
-    - "FireplaceQu"
-    - "GarageType"
-    - "GarageFinish"
-    - "PavedDrive"
+    - "sex"
+    - "cp"
+    - "fbs"
+    - "restecg"
+    - "exang"
+    - "slope"
+    - "ca"
+    - "thal"
   numerical_features:
-    - "OverallQual"
-    - "MSSubClass"
-    - "OverallCond"
-    - "GrLivArea"
-    - "GarageCars"
-    - "1stFlrSF"
-    - "Fireplaces"
-    - "BsmtFullBath"
-    - "YrSold"
-    - "YearRemodAdd"
-    - "LotFrontage"
-  features_to_drop:
-    - "YrSold"
-  target_col: "SalePrice"
+    - "age"
+    - "trestbps"
+    - "chol"
+    - "thalach"
+    - "oldpeak"
+  use_scaling_for_num_features: True
+  # features_to_drop:
+    # - ""
+  target_col: "target"
 

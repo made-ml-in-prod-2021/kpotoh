@@ -1,10 +1,15 @@
+import os
+
 import pytest
 import numpy as np
 import pandas as pd
 
+from ml_project.entities import read_training_pipeline_params
+
 
 @pytest.fixture
 def synthetic_dataset():
+    """ genereate synthetic dataset independently based on true one """
     cat_features = {
         'sex': 2, 'cp': 4, 'fbs': 2, 'restecg': 3, 
         'exang':2, 'slope':3, 'ca': 5, 'thal': 4,
@@ -37,3 +42,12 @@ def path_to_synthetic_data(tmpdir, synthetic_dataset):
     data = synthetic_dataset
     dataset_fio.write(data)
     return dataset_fio
+
+
+@pytest.fixture
+def pipeline_params():
+    path = './configs/train_config.yml'
+    assert os.path.exists(path), 'choose another config path'
+
+    params = read_training_pipeline_params(path)
+    return params
