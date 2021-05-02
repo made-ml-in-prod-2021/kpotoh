@@ -4,7 +4,9 @@ import pytest
 import numpy as np
 import pandas as pd
 
+from ml_project.entities import TrainingPipelineParams
 from ml_project.entities import read_training_pipeline_params
+from ml_project.features import FeaturesExtractor, extract_target
 
 
 @pytest.fixture
@@ -39,15 +41,23 @@ def synthetic_dataset():
 @pytest.fixture
 def path_to_synthetic_data(tmpdir, synthetic_dataset):
     dataset_fio = tmpdir.join('dataset.txt')
-    data = synthetic_dataset
-    dataset_fio.write(data)
+    synthetic_dataset.to_csv(dataset_fio, index=None)
     return dataset_fio
 
 
 @pytest.fixture
-def pipeline_params():
-    path = './configs/train_config.yml'
+def pipeline_params() -> TrainingPipelineParams:
+    path = './tests/configs/train_config.yml'
     assert os.path.exists(path), 'choose another config path'
 
     params = read_training_pipeline_params(path)
     return params
+
+
+@pytest.fixture
+def train_data(synthetic_dataset, pipeline_params):
+    feature_params = pipeline_params.feature_params
+    X = FeaturesExtractor(feature_params).fit_transform(synthetic_dataset)
+    y = extract_target(synthetic_dataset, feature_params)
+    return X, y
+    

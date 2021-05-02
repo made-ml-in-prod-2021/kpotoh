@@ -15,14 +15,14 @@ class FeaturesExtractor(TransformerMixin):
     def __init__(self, feature_params: FeatureParams):
         self.params = feature_params
 
-    def fit(self, X: pd.DataFrame):
+    def fit(self, df: pd.DataFrame):
         use_scaling = self.params.use_scaling_for_num_features
         self._transformer = self.build_transformer(use_scaling)
-        self._transformer.fit(X)
+        self._transformer.fit(df)
         return self
 
-    def transform(self, X: pd.DataFrame):
-        return self._transformer.transform(X)
+    def transform(self, df: pd.DataFrame):
+        return self._transformer.transform(df)
 
     @staticmethod
     def build_categorical_pipeline() -> Pipeline:

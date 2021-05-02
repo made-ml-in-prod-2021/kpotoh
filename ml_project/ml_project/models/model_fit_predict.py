@@ -1,3 +1,4 @@
+import json
 import pickle
 from typing import Dict, Union
 
@@ -15,13 +16,20 @@ SklearnRegressionModel = Union[
 ]
 
 
-def choose_model(model_type: str) -> SklearnRegressionModel:
+def choose_model(model_type: str, random_state: int) -> SklearnRegressionModel:
     model_types = {
-        'LogisticRegression': LogisticRegression(),
-        'RandomForestClassifier': RandomForestClassifier(),
-        'KNeighborsClassifier': KNeighborsClassifier(),
+        'LogisticRegression': LogisticRegression(
+            C=0.108, fit_intercept=True, max_iter=100, random_state=random_state,
+        ),
+        'RandomForestClassifier': RandomForestClassifier(
+            criterion='entropy', max_features='log2',
+            min_samples_leaf=1, n_estimators=55, random_state=random_state,
+        ),
+        'KNeighborsClassifier': KNeighborsClassifier(
+            n_neighbors=5, p=1, random_state=random_state
+        ),
     }
-    model = model_types.get(model_type, default=None)
+    model = model_types.get(model_type, None)
     if model is None:
         raise NotImplementedError
     return model
@@ -32,7 +40,7 @@ def train_model(
     target: np.ndarray,
     train_params: TrainingParams
 ) -> SklearnRegressionModel:
-    model = choose_model(train_params.model_type)
+    model = choose_model(train_params.model_type, train_params.random_state)
     model.fit(features, target)
     return model
 
@@ -57,3 +65,10 @@ def save_model(model: SklearnRegressionModel, path: str):
     """ save model to pickle file """
     with open(path, "wb") as fout:
         pickle.dump(model, fout)
+    return path
+
+
+def save_metrics(metrics: dict, path: str):
+    """ save metrics to json """
+    with open(path, 'w') as fout:
+        json.dump(metrics, fout)
