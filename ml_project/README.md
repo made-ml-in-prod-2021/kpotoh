@@ -1,7 +1,53 @@
 Heart prediction
 ==============================
 
+## Project structure
+~~~
+.
+├── configs                         <- configurations for training and logging
+│   ├── logging_config.yml
+│   ├── train_config_knn.yml
+│   ├── train_config_logreg.yml
+│   └── train_config_trees.yml
+├── ml_project                      <- main project code 
+│   ├── data                        <- functionality for data processing
+│   │   ├── download_data.sh
+│   │   ├── __init__.py
+│   │   └── make_dataset.py
+│   ├── entities                    <- dataclasses for parameters to operate with configs
+│   │   ├── __init__.py
+│   │   ├── params.py
+│   │   └── train_pipeline_params.py
+│   ├── experiments.py              <- ml experiments to search best model parameters
+│   ├── features                    <- functionality for features generation
+│   │   ├── build_features.py
+│   │   └── __init__.py
+│   ├── models                      <- functionality for model training and prediction
+│   │   ├── __init__.py
+│   │   └── model_fit_predict.py
+│   └── pipeline.py                 <- console interface to ml pipeline
+├── models                          <- saved models in pickle format and metrics 
+│   ├── metrics_logreg.json
+│   └── model_logreg.pkl
+├── notebooks                       <- ipython notebooks 
+│   └── EDA.ipynb
+├── README.md
+├── requirements.txt
+├── setup.py
+└── tests                           <- tests for separated functionalities and pipeline generally
+    ├── configs
+    │   └── train_config.yml
+    ├── data
+    │   └── test_make_data.py
+    ├── features
+    │   └── test_features.py
+    ├── global_fixtures.py
+    ├── model
+    │   └── test_train_models.py
+    └── test_end2end_training.py
+~~~
 
+## How to use
 Installation: 
 ~~~
 python -m venv env
