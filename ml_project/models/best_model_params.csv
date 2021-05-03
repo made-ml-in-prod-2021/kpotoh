@@ -1,4 +1,0 @@
-model_name	best_params	accuracy
-logreg	{'C': 0.10826367338740546, 'fit_intercept': True, 'max_iter': 100}	0.848032786885246
-trees	{'criterion': 'entropy', 'max_features': 'log2', 'min_samples_leaf': 1, 'n_estimators': 55}	0.8646448087431693
-knn	{'n_neighbors': 5, 'p': 1}	0.8482513661202186

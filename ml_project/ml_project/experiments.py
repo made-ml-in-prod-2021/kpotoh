@@ -1,3 +1,4 @@
+import sys
 import warnings
 
 import numpy as np
@@ -10,13 +11,14 @@ from ml_project.entities import read_training_pipeline_params
 from ml_project.data import read_data
 from ml_project.features import FeaturesExtractor, extract_target
 
-PATH_TO_BEST_MODEL_PARAMS = './models/best_model_params.csv'
+PATH_TO_BEST_MODEL_PARAMS = "./models/best_model_params.csv"
+TRAIN_CONFIG_PATH = "./configs/train_config_trees.yml"
 
 
 def best_model_params(clf, grid_params: dict, X, y):
     """ choose best classifier by grid search cross-validation """
     grid_search_output = GridSearchCV(
-        clf, grid_params, scoring='accuracy', n_jobs=-1, cv=5, verbose=1,
+        clf, grid_params, scoring='roc_auc', n_jobs=-1, cv=5, verbose=1,
     )
     grid_search_output.fit(X, y)
     return grid_search_output.best_params_, grid_search_output.best_score_
@@ -24,7 +26,7 @@ def best_model_params(clf, grid_params: dict, X, y):
 
 def main():
     warnings.filterwarnings('ignore')
-    params = read_training_pipeline_params('./configs/train_config.yml')
+    params = read_training_pipeline_params(TRAIN_CONFIG_PATH)
 
     # load data
     data = read_data(params.input_data_path)
@@ -65,6 +67,10 @@ def main():
 
         for mname, model, grid_params in search_entities:
             best_params, score = best_model_params(model, grid_params, X, y)
+            print(
+                f"{mname}, {best_params}, {score}",
+                file=sys.stderr,
+            )
             fout.write(f"{mname}\t{best_params}\t{score}\n")
 
 

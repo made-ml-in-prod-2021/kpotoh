@@ -19,15 +19,13 @@ SklearnRegressionModel = Union[
 def choose_model(model_type: str, random_state: int) -> SklearnRegressionModel:
     model_types = {
         'LogisticRegression': LogisticRegression(
-            C=0.108, fit_intercept=True, max_iter=100, random_state=random_state,
+            C=0.45, fit_intercept=True, max_iter=1000, random_state=random_state,
         ),
         'RandomForestClassifier': RandomForestClassifier(
-            criterion='entropy', max_features='log2',
-            min_samples_leaf=1, n_estimators=55, random_state=random_state,
+            criterion='gini', max_features='log2',
+            min_samples_leaf=3, n_estimators=100, random_state=random_state,
         ),
-        'KNeighborsClassifier': KNeighborsClassifier(
-            n_neighbors=5, p=1, random_state=random_state
-        ),
+        'KNeighborsClassifier': KNeighborsClassifier(n_neighbors=5, p=1),
     }
     model = model_types.get(model_type, None)
     if model is None:
@@ -72,3 +70,9 @@ def save_metrics(metrics: dict, path: str):
     """ save metrics to json """
     with open(path, 'w') as fout:
         json.dump(metrics, fout)
+
+
+def load_model(path: str) -> SklearnRegressionModel:
+    with open(path, 'rb') as fin:
+        loaded_model = pickle.load(fin)
+    return loaded_model

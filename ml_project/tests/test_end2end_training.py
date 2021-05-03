@@ -2,6 +2,7 @@ import os
 from typing import List
 
 import pytest
+import pandas as pd
 
 from tests.global_fixtures import (
     path_to_synthetic_data, synthetic_dataset, pipeline_params
@@ -12,7 +13,7 @@ from ml_project.entities import (
     FeatureParams,
     TrainingParams,
 )
-from ml_project.train_pipeline import train_pipeline
+from ml_project.pipeline import train_pipeline, predict_pipeline
 
 
 @pytest.fixture
@@ -60,3 +61,18 @@ def test_end2end(pipeline_params_for_testing, model_type):
     assert metrics["accuracy_score"] > 0
     assert os.path.exists(real_model_path)
     assert os.path.exists(params.metric_path)
+
+
+def test_prediction(tmpdir, pipeline_params_for_testing):
+    # train model to create model file
+    train_pipeline(pipeline_params_for_testing)
+
+    dataset_path = pipeline_params_for_testing.input_data_path
+    output_path = tmpdir.join("preds.csv")
+    predict_pipeline(dataset_path, output_path, pipeline_params_for_testing)
+    
+    assert os.path.exists(output_path)
+    readed_preds = pd.read_csv(output_path)
+    assert readed_preds.columns == ['target']
+    assert readed_preds.shape == (100, 1)
+    assert readed_preds['target'].nunique() == 2

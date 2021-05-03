@@ -1,11 +1,11 @@
 input_data_path: "data/raw/heart.csv"
-output_model_path: "models/model.pkl"
-metric_path: "models/metrics.json"
+output_model_path: "models/model_knn.pkl"
+metric_path: "models/metrics_knn.json"
 splitting_params:
   val_size: 0.2
-  random_state: 10
+  random_state: 100
 train_params:
-  model_type: "LogisticRegression"
+  model_type: "KNeighborsClassifier"
 feature_params:
   categorical_features:
     - "sex"
@@ -23,7 +23,5 @@ feature_params:
     - "thalach"
     - "oldpeak"
   use_scaling_for_num_features: True
-  # features_to_drop:
-    # - ""
   target_col: "target"
 

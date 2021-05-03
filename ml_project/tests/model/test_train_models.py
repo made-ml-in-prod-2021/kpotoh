@@ -10,7 +10,8 @@ from sklearn.metrics import accuracy_score
 
 from ml_project.entities import FeatureParams
 from ml_project.models import (
-    train_model, predict_model, evaluate_model, save_model, save_metrics
+    train_model, predict_model, evaluate_model, 
+    save_model, save_metrics, load_model,
 )
 from tests.global_fixtures import (
     synthetic_dataset, pipeline_params, train_data
@@ -74,3 +75,11 @@ def test_metrics_saving(tmpdir, fitted_model, train_data):
     with open(metrics_fio, 'r') as fin:
         loaded_metrics = json.load(fin)
     assert loaded_metrics == scores
+
+
+def test_model_loading(tmpdir, fitted_model):
+    model_fio = tmpdir.join('model.pkl')
+    save_model(fitted_model, model_fio)
+    loaded_model = load_model(model_fio)
+    assert adler32(pickle.dumps(loaded_model)) == adler32(pickle.dumps(fitted_model))
+ 
