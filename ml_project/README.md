@@ -50,7 +50,7 @@ Heart prediction
 ## How to use
 Installation: 
 ~~~
-python -m venv env
+python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 pip install .
@@ -61,21 +61,26 @@ bash ./ml_project/data/download_data.sh
 ~~~
 Training:
 ~~~
-python3 ml_project/pipeline.py train --config configs/train_config_logreg.yaml
+python3 ml_project/pipeline.py train --config configs/train_config_logreg.yml
 ~~~
 Prediction (dataset must contain all features specified in config):
 ~~~
-python3 ml_project/pipeline.py predict --dataset data/raw/heart.csv --config configs/train_config_logreg.yaml --output data/prediciton.csv
+python3 ml_project/pipeline.py predict --dataset data/raw/heart.csv --config configs/train_config_logreg.yml --output data/prediciton.csv
 ~~~
 Help:
 ~~~
 python3 ml_project/pipeline.py --help
 ~~~
 
+## Tests
+~~~
+pytest tests/
+~~~
 
 ## Data
 - [heart-disease-uci](https://www.kaggle.com/ronitf/heart-disease-uci?select=heart.csv)
 
+--------------------
 
 ## Разбалловка
 
