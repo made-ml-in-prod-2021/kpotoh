@@ -13,9 +13,6 @@ from ml_project.models import (
     train_model, predict_model, evaluate_model, 
     save_model, save_metrics, load_model,
 )
-from tests.global_fixtures import (
-    synthetic_dataset, pipeline_params, train_data
-)
 
 
 @pytest.fixture

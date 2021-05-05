@@ -50,7 +50,7 @@ def predict_model(
     return predicts
 
 
-def evaluate_model(predicts: np.ndarray, target: np.ndarray):
+def evaluate_model(predicts: np.ndarray, target: np.ndarray) -> dict:
     scores = {
         "accuracy_score": accuracy_score(target, predicts),
         "f1_score": f1_score(target, predicts),
@@ -59,7 +59,7 @@ def evaluate_model(predicts: np.ndarray, target: np.ndarray):
     return scores
 
 
-def save_model(model: SklearnRegressionModel, path: str):
+def save_model(model: SklearnRegressionModel, path: str) -> str:
     """ save model to pickle file """
     with open(path, "wb") as fout:
         pickle.dump(model, fout)

@@ -2,7 +2,6 @@ import pandas as pd
 
 from ml_project.entities import SplittingParams
 from ml_project.data import read_data, split_to_train_val
-from tests.global_fixtures import path_to_synthetic_data, synthetic_dataset
 
 
 def test_read_data(path_to_synthetic_data):

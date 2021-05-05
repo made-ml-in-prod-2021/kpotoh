@@ -4,9 +4,6 @@ from typing import List
 import pytest
 import pandas as pd
 
-from tests.global_fixtures import (
-    path_to_synthetic_data, synthetic_dataset, pipeline_params
-)
 from ml_project.entities import (
     TrainingPipelineParams,
     SplittingParams,
@@ -21,25 +18,11 @@ def pipeline_params_for_testing(tmpdir, path_to_synthetic_data, pipeline_params)
     output_model_path = tmpdir.join("model.pkl")
     metric_path = tmpdir.join("metrics.json")
 
-    num_features = pipeline_params.feature_params.numerical_features
-    cat_features = pipeline_params.feature_params.categorical_features
-    target_col = pipeline_params.feature_params.target_col
-
-    params = TrainingPipelineParams(
-        input_data_path=path_to_synthetic_data,
-        output_model_path=output_model_path,
-        metric_path=metric_path,
-        splitting_params=SplittingParams(val_size=0.2, random_state=2339),
-        feature_params=FeatureParams(
-            numerical_features=num_features,
-            categorical_features=cat_features,
-            target_col=target_col,
-            use_scaling_for_num_features=True,
-            features_to_drop=pipeline_params.feature_params.features_to_drop,
-        ),
-        train_params=TrainingParams(model_type="LogisticRegression"),
-    )
-    return params
+    # change path-parameters to temporary files and synthetic data
+    pipeline_params.input_data_path = path_to_synthetic_data
+    pipeline_params.output_model_path = output_model_path
+    pipeline_params.metric_path = metric_path
+    return pipeline_params
 
 
 @pytest.mark.parametrize(
