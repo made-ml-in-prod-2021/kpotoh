@@ -2,9 +2,9 @@ import os
 import pickle
 from typing import Tuple
 
-import pandas as pd
-import numpy as np
 import click
+import numpy as np
+import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
 

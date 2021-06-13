@@ -5,20 +5,14 @@ from airflow.operators.dummy import DummyOperator
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago
 
-DEFAULT_VOLUME = '/home/mr/MADE/DS-22/ml_in_prod/airflow_ml_dags/data:/data'
+from utils import DEFAULT_VOLUME, default_args
 
-default_args = {
-    "owner": "airflow",
-    "email": ["airflow@example.com"],
-    "retries": 1,
-    "retry_delay": timedelta(minutes=5),
-}
 
 with DAG(
     "DAG2_train_model",
     default_args=default_args,
     schedule_interval="@weekly",
-    start_date=days_ago(1)
+    start_date=days_ago(7)
 ) as dag:
 
     start_task = DummyOperator(task_id='start-train-pipeline')
@@ -44,8 +38,8 @@ with DAG(
     training = DockerOperator(
         task_id="training",
         image="airflow-train",
-        command="--input-dir /data/splitted/{{ ds }} "
-                "--output-dir /data/models/{{ ds }}",
+        command="--data-dir /data/splitted/{{ ds }} "
+                "--model-dir /data/models/{{ ds }}",
         network_mode="bridge",
         do_xcom_push=False,
         volumes=[DEFAULT_VOLUME]
@@ -53,8 +47,8 @@ with DAG(
     validating = DockerOperator(
         task_id="validating",
         image="airflow-validate",
-        command="--input-dir /data/splitted/{{ ds }} "
-                "--output-dir /data/models/{{ ds }}",
+        command="--data-dir /data/splitted/{{ ds }} "
+                "--model-dir /data/models/{{ ds }}",
         network_mode="bridge",
         do_xcom_push=False,
         volumes=[DEFAULT_VOLUME]
