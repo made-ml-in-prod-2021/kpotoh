@@ -22,7 +22,7 @@ with DAG(
 ) as dag:
     start_task = DummyOperator(task_id='start-generation')
     generate_data = DockerOperator(
-        task_id="docker-airflow-generate",
+        task_id="airflow-generate",
         image="airflow-generate",
         command="/data/raw/{{ ds }}",
         network_mode="bridge",

@@ -15,21 +15,50 @@ default_args = {
 }
 
 with DAG(
-    "DAG1_train_model",
+    "DAG2_train_model",
     default_args=default_args,
     schedule_interval="@weekly",
-    start_date=days_ago(3)
+    start_date=days_ago(1)
 ) as dag:
-    start_task = DummyOperator(task_id='start-generation')
-    generate_data = DockerOperator(
-        task_id="docker-airflow-generate",
-        image="airflow-generate",
-        command="/data/raw/{{ ds }}",
+
+    start_task = DummyOperator(task_id='start-train-pipeline')
+
+    preprocessing = DockerOperator(
+        task_id="preprocessing",
+        image="airflow-preprocess",
+        command="--input-dir /data/raw/{{ ds }} "
+                "--output-dir /data/processed/{{ ds }}",
         network_mode="bridge",
         do_xcom_push=False,
         volumes=[DEFAULT_VOLUME]
     )
+    splitting = DockerOperator(
+        task_id="splitting",
+        image="airflow-split",
+        command="--input-dir /data/processed/{{ ds }} "
+                "--output-dir /data/splitted/{{ ds }}",
+        network_mode="bridge",
+        do_xcom_push=False,
+        volumes=[DEFAULT_VOLUME]
+    )
+    training = DockerOperator(
+        task_id="training",
+        image="airflow-train",
+        command="--input-dir /data/splitted/{{ ds }} "
+                "--output-dir /data/models/{{ ds }}",
+        network_mode="bridge",
+        do_xcom_push=False,
+        volumes=[DEFAULT_VOLUME]
+    )      
+    validating = DockerOperator(
+        task_id="validating",
+        image="airflow-validate",
+        command="--input-dir /data/splitted/{{ ds }} "
+                "--output-dir /data/models/{{ ds }}",
+        network_mode="bridge",
+        do_xcom_push=False,
+        volumes=[DEFAULT_VOLUME]
+    )
+    end_task = DummyOperator(task_id='end-train-pipeline')
 
-    end_task = DummyOperator(task_id='end-generation')
-
-    start_task >> generate_data >> end_task
+    start_task >> preprocessing >> splitting >> training >> validating >> end_task
