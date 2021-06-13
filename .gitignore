@@ -1,0 +1,8 @@
+hw3.png
+lecs/
+airflow_ml_dags/env/
+airflow_ml_dags/airflow-examples/
+airflow_ml_dags/.vscode/
+airflow_ml_dags/malyginvlad/
+airflow_ml_dags/data/
+airflow_ml_dags/dags/__pycache__/
