@@ -18,11 +18,11 @@ with DAG(
     "DAG1_generate_data",
     default_args=default_args,
     schedule_interval="@daily",
-    start_date=days_ago(7)
+    start_date=days_ago(5)
 ) as dag:
     start_task = DummyOperator(task_id='start-generation')
     generate_data = DockerOperator(
-        task_id="airflow-generate",
+        task_id="generate-data",
         image="airflow-generate",
         command="/data/raw/{{ ds }}",
         network_mode="bridge",

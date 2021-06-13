@@ -75,22 +75,40 @@ services:
     image: airflow-ml-base
     restart: "no"
 
-  # predict:
-  #   build:
-  #     context: images/airflow-predict
-  #   image: airflow-predict
-  #   restart: "no"
-
   generate:
     build:
       context: images/airflow-generate
     image: airflow-generate
     restart: "no"
 
-  # preprocess:
+  preprocess:
+    build:
+      context: images/airflow-preprocess
+    image: airflow-preprocess
+    restart: "no"
+
+  split:
+    build:
+      context: images/airflow-split
+    image: airflow-split
+    restart: "no"
+
+  train:
+    build:
+      context: images/airflow-train
+    image: airflow-train
+    restart: "no"
+
+  validate:
+    build:
+      context: images/airflow-validate
+    image: airflow-validate
+    restart: "no"
+
+  # predict:
   #   build:
-  #     context: images/airflow-preprocess
-  #   image: airflow-preprocess
+  #     context: images/airflow-predict
+  #   image: airflow-predict
   #   restart: "no"
 
 volumes:

@@ -18,12 +18,14 @@ def read_data(dir_path: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def train_model(features: np.ndarray, target: np.ndarray) -> LogisticRegression:
+    print('training model')
     model = LogisticRegression()
     model.fit(features, target)
     return model
 
 
 def save_model(model: LogisticRegression, model_dir: str):
+    print('saving model')
     os.makedirs(model_dir, exist_ok=True)
     with open(os.path.join(model_dir, "model.pkl"), "wb") as fout:
         pickle.dump(model, fout)
