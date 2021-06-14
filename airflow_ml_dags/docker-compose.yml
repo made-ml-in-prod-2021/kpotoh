@@ -9,6 +9,7 @@ x-environment: &airflow_environment
   - AIRFLOW__CORE__STORE_SERIALIZED_DAGS=True
   - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
   - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
+  - AIRFLOW_VAR_MODEL_DIR=data/models
 
 
 x-airflow-image: &airflow_image apache/airflow:2.0.0-python3.6
@@ -35,8 +36,7 @@ services:
     command: >-
       -c 'airflow db init && airflow users create --username admin --password admin
       --firstname Anonymous --lastname Admin --role Admin --email admin@example.org
-      && airflow connections add fs_default --conn-type fs
-      && airflow variables set model_dir "data/models"'
+      && airflow connections add fs_default --conn-type fs'
 
   webserver:
     build:

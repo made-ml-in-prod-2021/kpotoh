@@ -18,7 +18,7 @@ with DAG(
     generate_data = DockerOperator(
         task_id="generate-data",
         image="airflow-generate",
-        command="/data/raw/{{ ds }}",
+        command="data/raw/{{ ds }}",
         network_mode="bridge",
         do_xcom_push=False,
         volumes=[DEFAULT_VOLUME]
