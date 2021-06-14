@@ -6,7 +6,7 @@ Homework 3
 docker-compose up --build
 ```
 
-## Тестирование кода дагов
+## Тестирование кода дагов (работает при запущенном сервере и названии контейнера шедулера airflow_ml_dags_scheduler_1)
 ```
 docker exec -it airflow_ml_dags_scheduler_1 pytest -v tests
 ```
@@ -21,15 +21,16 @@ docker exec -it airflow_ml_dags_scheduler_1 pytest -v tests
 
 3 Модель используется для предсказаний ежедневно (5 баллов) 
 
-3а Реализуйте сенсоры на то, что данные готовы для дагов тренировки и обучения (3 доп балла)
+3а Сенсоры есть (3 доп балла)
 
 4 все даги реализованы только с помощью DockerOperator (10 баллов)
 
-5 Протестируйте ваши даги (5 баллов) https://airflow.apache.org/docs/apache-airflow/stable/best-practices.html 
+5 Тесты структуры дагов есть (5 баллов)
 
-8 Настройте alert в случае падения дага (3 доп. балла)
-https://www.astronomer.io/guides/error-notifications-in-airflow
+8 alert в случае падения дага есть (3 доп. балла)
 
 9 самооценка (1 балл)
 
 **Итого:** 5 + 10 + 5 + 3 + 10 + 5 + 3 + 1 = 42
+
+**C учетом hard deadline:** 42 * 0.6 = 25

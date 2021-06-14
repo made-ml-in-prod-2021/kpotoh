@@ -58,7 +58,7 @@ with DAG(
         do_xcom_push=False,
         volumes=[DEFAULT_VOLUME]
     )      
-    validating = DockerOperator(
+    validation = DockerOperator(
         task_id="validation",
         image="airflow-validate",
         command="--data-dir data/splitted/{{ ds }} "
