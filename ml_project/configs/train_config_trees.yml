@@ -23,7 +23,5 @@ feature_params:
     - "thalach"
     - "oldpeak"
   use_scaling_for_num_features: False
-  # features_to_drop:
-    # - ""
   target_col: "target"
 

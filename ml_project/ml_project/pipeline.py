@@ -140,12 +140,6 @@ def callback_predict(arguments):
     )
 
 
-def _setup_logging():
-    handler = logging.StreamHandler(sys.stderr)
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(handler)
-
-
 def setup_logging():
     """setting up the logging from yaml config file"""
     with open(DEFAULT_LOGGING_CONFIG_PATH) as config_fin:
@@ -154,7 +148,6 @@ def setup_logging():
 
 
 def main():
-    """main code to run script with console interface"""
     parser = ArgumentParser(
         description='Script for training and predicting model to deal with the heart disease',
         formatter_class=ArgumentDefaultsHelpFormatter,

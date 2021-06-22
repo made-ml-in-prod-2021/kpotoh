@@ -10,8 +10,6 @@ from ml_project.entities import FeatureParams
 
 
 class FeaturesExtractor(TransformerMixin):
-    """ Смешать, но не взбалтывать """
-
     def __init__(self, feature_params: FeatureParams):
         self.params = feature_params
 

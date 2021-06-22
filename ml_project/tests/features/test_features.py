@@ -7,7 +7,6 @@ from ml_project.entities import FeatureParams
 from ml_project.features import (
     FeaturesExtractor, extract_target
 )
-from tests.global_fixtures import synthetic_dataset, pipeline_params
 
 
 @pytest.fixture
